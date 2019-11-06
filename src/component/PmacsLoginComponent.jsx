@@ -42,8 +42,6 @@ class PmacsLoginComponent extends Component {
         }
         UserDataService.authenticateUser(user).then(
             response => {
-                console.log("Resposta:")
-                console.log(response.data)
                 this.setState({
                     username: response.data.username,
                     token: response.data.token

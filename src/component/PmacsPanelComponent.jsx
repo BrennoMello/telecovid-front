@@ -19,6 +19,11 @@ class PmacsPanelComponent extends Component {
         this.ValidateToken = this.ValidateToken.bind(this)
     }
 
+    componentDidMount() {
+        console.log("Token:");
+        console.log(this.state.token);
+    }
+
     ValidateToken() {
         UserDataService.validateUser(this.state.token).then(
             response => {
