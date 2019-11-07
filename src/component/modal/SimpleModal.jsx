@@ -43,8 +43,8 @@ class SimpleModal extends Component {
                 </Modal.Header>
                 <Modal.Body>
                     <span className="font_2">
-                    <h5>{this.state.modalDescription}</h5>
-                    <p>{this.state.modalMsg}</p>
+                        <h5>{this.state.modalDescription}</h5>
+                        <p>{this.state.modalMsg}</p>
                     </span>
                 </Modal.Body>
                 <Modal.Footer>
