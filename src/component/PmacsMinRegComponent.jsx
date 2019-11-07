@@ -34,7 +34,7 @@ class PmacsMinRegComponent extends Component {
         }
         UserDataService.minimalRegisterUser(user).then(
             response => {
-                console.log("Resposta:")
+                console.log("MinRegistro:")
                 console.log(response.data)
                 this.setState({
                     name: response.data.name,

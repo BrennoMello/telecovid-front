@@ -7,7 +7,7 @@ import UserDataService from '../service/UserDataService';
 class PmacsCompRegComponent extends Component {
     render() {
         return (
-            <h2></h2>
+            <h2>Complemento de Cadastro</h2>
         )
     }
 

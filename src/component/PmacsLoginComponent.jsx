@@ -3,6 +3,7 @@ import $ from 'jquery';
 import bootstrap from 'bootstrap';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import UserDataService from '../service/UserDataService';
+import SimpleModal from './modal/SimpleModal';
 
 const divStylePaddingBottom = {
     paddingBottom: "50px",
@@ -27,7 +28,6 @@ class PmacsLoginComponent extends Component {
 
         this.state = {
             username: '',
-            password: '',
             token: ''
         }
         this.onSubmit = this.onSubmit.bind(this)
@@ -35,13 +35,17 @@ class PmacsLoginComponent extends Component {
         this.goToTheMinRegister = this.goToTheMinRegister.bind(this)
     }
 
+    componentDidMount() {
+        console.log("React version: "+React.version);
+    }
+
     onSubmit(values) {
         let user = {
             username: values.username,
             password: values.password
         }
-        UserDataService.authenticateUser(user).then(
-            response => {
+        UserDataService.authenticateUser(user)
+        .then(response => {
                 this.setState({
                     username: response.data.username,
                     token: response.data.token
@@ -51,13 +55,18 @@ class PmacsLoginComponent extends Component {
                     this.props.history.push({
                         pathname: '/panel',
                         //search: '?query=abc',
-                        state: { token: this.state.token }
+                        state: { username: this.state.username, token: this.state.token }
                     })
                 }
                 else{
                     $('.alert').show();
                     console.log("Autenticação falhou. Acesso Negado");
                 }
+            }
+        )
+        .catch(error => {
+            console.log(error.message);
+            this.refs.simpleModal.modalOpen('Ops!', 'Um erro ocorreu', 'Descrição do erro: '+error.message);
             }
         )
     }
@@ -87,6 +96,8 @@ class PmacsLoginComponent extends Component {
 
         return (
             <div className="container" style={divStyleBox}>
+                <SimpleModal ref="simpleModal" />
+
                 <div style={divStylePaddingBottom}></div>
                 <div style={divStyleNone} className="alert alert-warning" role="alert">
                     Login ou senha inválidos.

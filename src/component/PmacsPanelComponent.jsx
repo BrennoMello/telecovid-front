@@ -11,26 +11,25 @@ class PmacsPanelComponent extends Component {
         super(props)
 
         this.state = {
-            name: '',
-            email: '',
-            token: this.props.location.state.token,
-            password: ''
+            user: {
+                username: this.props.location.state.username, 
+                token: this.props.location.state.token
+            }
         }
         this.ValidateToken = this.ValidateToken.bind(this)
     }
 
     componentDidMount() {
         console.log("Token:");
-        console.log(this.state.token);
+        console.log(this.state.user.token);
     }
 
     ValidateToken() {
-        UserDataService.validateUser(this.state.token).then(
+        UserDataService.validateUser(this.state.user.token).then(
             response => {
-                console.log("Resposta:")
-                console.log(response.data)
+                console.log("Validação: "+response.data)
                 if(response.data){
-                    console.log("Token autenticado. Acesso Garantido");
+                    console.log(this.state.user.username+": Token autenticado. Acesso Garantido");
                 }
                 else{
                     console.log("Token não autenticado. Acesso Negado");
