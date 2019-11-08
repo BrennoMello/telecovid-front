@@ -10,10 +10,6 @@ const divStyleBox = {
     width: "50%",
 };
 
-const divStyleCenter = {
-    textAlign: "center",
-};
-
 class PmacsMinRegComponent extends Component {
 
     constructor(props) {
@@ -65,7 +61,7 @@ class PmacsMinRegComponent extends Component {
 
         return (
             <div className="container" style={divStyleBox}>
-                <h3 style={divStyleCenter}>Registro Mínimo</h3>
+                <h3 className="center font_2">Registro Mínimo</h3>
                 <div style={divStylePaddingBottom}></div>
                 <Formik 
                     initialValues={{name, email}}

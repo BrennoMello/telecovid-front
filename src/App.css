@@ -11,3 +11,93 @@
     font-family: Arial, Helvetica, sans-serif;
     color: rgb(2, 47, 83);
 }
+
+.font_3 {
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: small;
+
+}
+
+.center {
+    text-align: center;
+    justify-content: center;
+}
+
+label.center {
+    text-align: center;
+    justify-content: center;
+}
+
+label.left {
+    text-align: left;
+    justify-content: left;
+}
+
+label.right {
+    text-align: right;
+    justify-content: right;
+}
+
+div.center {
+    text-align: center;
+    justify-content: center;
+}
+
+div.left {
+    text-align: left;
+    justify-content: left;
+}
+
+div.right {
+    text-align: right;
+    justify-content: right;
+}
+
+.padRight10{
+    padding-right: 10px;
+}
+
+.padLeft10{
+    padding-left: 10px;
+}
+
+.padBottom30{
+    padding-bottom: 30px;
+}
+
+.box{
+    width: 50%;
+}
+
+.width10{
+    width: 10%;
+}
+
+.width11{
+    width: 11%;
+}
+
+.width39{
+    width: 39%;
+}
+
+.width40{
+    width: 40%;
+}
+
+.width50{
+    width: 50%;
+}
+
+input.width100{
+    width: 100% !important;
+}
+
+.width100{
+    width: 100% !important;
+}
+
+.background_darkGray{
+    background-color: rgb(228, 228, 228);
+}

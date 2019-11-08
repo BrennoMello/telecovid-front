@@ -13,10 +13,6 @@ const divStyleBox = {
     width: "50%",
 };
 
-const divStyleCenter = {
-    textAlign: "center",
-};
-
 const divStyleNone = {
     display: "none",
 };
@@ -133,7 +129,7 @@ class PmacsLoginComponent extends Component {
                     )
                 }
                 </Formik>
-                <div style={divStyleCenter}>
+                <div className="center">
                     <button className="btn btn-warning" type="butom" onClick={this.goToTheMinRegister}>Ainda não tem cadastro. Clique aqui</button>
                 </div>
         
