@@ -38,16 +38,16 @@ class PmacsCompRegComponent extends Component {
             lastName: values.lastName,
             cpf: values.cpf,
             cns: values.cns,
-            landline: values.landline,
-            cell: values.cell,
+            phoneHome: values.phoneHome,
+            phoneCell: values.phoneCell,
             publicPlace: values.publicPlace,
             complement: values.complement,
             city: values.city,
             uf: values.uf,
             cep: values.cep,
             acceptedTerm: values.acceptedTerm,
-            pass: values.pass,
-            confimationPass: values.confimationPass
+            password: values.password,
+            confimationPassword: values.confimationPassword
             
         }
         UserDataService.createUser(user)
@@ -131,16 +131,16 @@ class PmacsCompRegComponent extends Component {
                             
                             <fieldset className="padBottom30">
                                 <legend className="font_3 background_darkGray">Telefones</legend>
-                                <ErrorMessage name="landline" component="div" className="alert alert-warning" />
-                                <ErrorMessage name="cell" component="div" className="alert alert-warning" />
+                                <ErrorMessage name="phoneHome" component="div" className="alert alert-warning" />
+                                <ErrorMessage name="phoneCell" component="div" className="alert alert-warning" />
                                 <div className="form-inline">
                                     <fieldset className="form-group padRight10 width50">
                                         <label className="left">Fixo</label>
-                                        <Field className="form-control width100" type="text" name="landline" />
+                                        <Field className="form-control width100" type="text" name="phoneHome" />
                                     </fieldset>
                                     <fieldset className="form-group width50">
                                         <label className="left">Celular</label>
-                                        <Field className="form-control width100" type="text" name="cell" />
+                                        <Field className="form-control width100" type="text" name="phoneCell" />
                                     </fieldset>
                                 </div>
                             </fieldset>
@@ -194,16 +194,16 @@ class PmacsCompRegComponent extends Component {
                                 <Field className="form-control" type="text" name="username" />
                             </fieldset>
 
-                            <ErrorMessage name="pass" component="div" className="alert alert-warning" />
+                            <ErrorMessage name="password" component="div" className="alert alert-warning" />
                             <fieldset className="form-group width50">
                                 <label>Senha</label>
-                                <Field className="form-control" type="text" name="pass" />
+                                <Field className="form-control" type="text" name="password" />
                             </fieldset>
 
-                            <ErrorMessage name="confimationPass" component="div" className="alert alert-warning" />
+                            <ErrorMessage name="confimationPassword" component="div" className="alert alert-warning" />
                             <fieldset className="form-group width50">
                                 <label>Confime a Senha</label>
-                                <Field className="form-control" type="text" name="confimationPass" />
+                                <Field className="form-control" type="text" name="confimationPassword" />
                             </fieldset>
 
                             <div className="right padBottom30">
