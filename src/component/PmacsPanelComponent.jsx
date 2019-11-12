@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import UserDataService from '../service/UserDataService';
+import SimpleModal from './modal/SimpleModal';
 
 class PmacsPanelComponent extends Component {
     constructor(props) {
@@ -8,7 +9,7 @@ class PmacsPanelComponent extends Component {
 
         this.state = {
             user: {
-                username: this.props.location.state.username, 
+                userName: this.props.location.state.userName, 
                 token: this.props.location.state.token
             }
         }
@@ -16,33 +17,45 @@ class PmacsPanelComponent extends Component {
     }
 
     componentDidMount() {
-        console.log("Token:");
         console.log(this.state.user.token);
     }
 
     ValidateToken() {
-        UserDataService.validateUser(this.state.user.token).then(
-            response => {
-                console.log("Validação: "+response.data)
-                if(response.data){
-                    console.log(this.state.user.username+": Token autenticado. Acesso Garantido");
+        UserDataService.validateUser(this.state.user.token)
+        .then(response => {
+                if(response.data.code == 100){
+                    if(response.data.validate){
+                        console.log(this.state.user.userName+": Token autenticado. Acesso Garantido");
+                    }
+                    else{
+                        console.log("Token não autenticado. Acesso Negado");
+                    }
                 }
                 else{
-                    console.log("Token não autenticado. Acesso Negado");
+                    if(response.data.code == 666){
+                        this.refs.simpleModal.modalOpen('Ops!', 'Um erro ocorreu', 'Por favor, tente novamente mais tarde.');
+                        console.log(response.data.description);
+                    }
                 }
+            }
+        )
+        .catch(error => {
+            console.log(error.message);
+            this.refs.simpleModal.modalOpen('Ops!', 'Um erro ocorreu', 'Descrição do erro: '+error.message);
             }
         )
     }
 
     render() {
         return (
-            <>
-            <h2 className="font_2">Painel</h2>
+            <div className="container">
+                <SimpleModal ref="simpleModal" />
+                <h2 className="font_2">Painel</h2>
 
-            <div className="center">
-                <button className="btn btn-warning" type="butom" onClick={this.ValidateToken}>Validar Token</button>
+                <div className="center">
+                    <button className="btn btn-warning" type="butom" onClick={this.ValidateToken}>Validar Token</button>
+                </div>
             </div>
-            </>
         )
     }
 }

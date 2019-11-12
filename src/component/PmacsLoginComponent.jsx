@@ -23,7 +23,7 @@ class PmacsLoginComponent extends Component {
         super(props)
 
         this.state = {
-            username: '',
+            userName: '',
             token: ''
         }
         this.onSubmit = this.onSubmit.bind(this)
@@ -37,26 +37,34 @@ class PmacsLoginComponent extends Component {
 
     onSubmit(values) {
         let user = {
-            username: values.username,
+            userName: values.userName,
             password: values.password
         }
         UserDataService.authenticateUser(user)
         .then(response => {
-                this.setState({
-                    username: response.data.username,
-                    token: response.data.token
-                })
-                if(this.state.token){
+                if(response.data.code == 100){
+                    this.setState({
+                        userName: response.data.user.userName,
+                        token: response.data.user.token
+                    })
                     //this.props.history.push(`/panel/:${this.state.token}`);
                     this.props.history.push({
                         pathname: '/panel',
                         //search: '?query=abc',
-                        state: { username: this.state.username, token: this.state.token }
+                        state: { userName: this.state.userName, token: this.state.token }
                     })
                 }
                 else{
-                    $('.alert').show();
-                    console.log("Autenticação falhou. Acesso Negado");
+                    if(response.data.code == 666){
+                        if(response.data.message == 'authenticationFailed'){
+                            $('.alert').show();
+                            this.refs.simpleModal.modalOpen('Ops!', 'Um erro ocorreu', 'Login ou Senha inválidos.');
+                        }
+                        else{
+                            this.refs.simpleModal.modalOpen('Ops!', 'Um erro ocorreu', 'Por favor, tente novamente mais tarde.');
+                        }
+                        console.log(response.data.description);
+                    }
                 }
             }
         )
@@ -69,10 +77,10 @@ class PmacsLoginComponent extends Component {
 
     validate(values) {
         let errors = {}
-        if (!values.username) {
-            errors.username = 'Entre com um Nome'
-        } else if (values.username.length > 200) {
-            errors.username = 'Nome grande demais por favor abrevie'
+        if (!values.userName) {
+            errors.userName = 'Entre com um Nome'
+        } else if (values.userName.length > 200) {
+            errors.userName = 'Nome grande demais por favor abrevie'
         }
 
         if (!values.password) {
@@ -87,7 +95,7 @@ class PmacsLoginComponent extends Component {
     }
 
     render() {
-        let username = "";
+        let userName = "";
         let password = "";
 
         return (
@@ -96,13 +104,13 @@ class PmacsLoginComponent extends Component {
 
                 <div style={divStylePaddingBottom}></div>
                 <div style={divStyleNone} className="alert alert-warning" role="alert">
-                    Login ou senha inválidos.
+                    Login ou Senha inválidos.
                     <button type="button" className="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <Formik 
-                    initialValues={{username, password}}
+                    initialValues={{userName, password}}
                     onSubmit={this.onSubmit}
                     validate={this.validate}
                     validateOnChange={false}
@@ -112,10 +120,10 @@ class PmacsLoginComponent extends Component {
                 {
                     (props) => (
                         <Form>
-                            <ErrorMessage name="username" component="div" className="alert alert-warning" />
+                            <ErrorMessage name="userName" component="div" className="alert alert-warning" />
                             <fieldset className="form-group">
                                 <label>Login</label>
-                                <Field className="form-control" type="text" name="username" />
+                                <Field className="form-control" type="text" name="userName" />
                             </fieldset>
                             <ErrorMessage name="password" component="div" className="alert alert-warning" />
                             <fieldset className="form-group">

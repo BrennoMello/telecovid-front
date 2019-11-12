@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import bootstrap from 'bootstrap';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import UserDataService from '../service/UserDataService';
+import SimpleModal from './modal/SimpleModal';
 
 const divStylePaddingBottom = {
     paddingBottom: "50px",
@@ -25,17 +27,31 @@ class PmacsMinRegComponent extends Component {
 
     onSubmit(values) {
         let user = {
-            name: values.name,
+            firstName: values.name.substring(0, values.name.indexOf(' ')),
+            lastName: values.name.substring(values.name.indexOf(' ')+1),
             email: values.email
         }
-        UserDataService.minimalRegisterUser(user).then(
-            response => {
-                console.log("MinRegistro:")
-                console.log(response.data)
-                this.setState({
-                    name: response.data.name,
-                    email: response.data.email
-                })
+        UserDataService.minimalRegisterUser(user)
+        .then(response => {
+                if(response.data.code == 100){
+                    console.log("MinRegistro:")
+                    console.log(response.data.description)
+                    this.setState({
+                        name: response.data.user.firstName + response.data.user.lastName,
+                        email: response.data.user.email
+                    })
+                }
+                else{
+                    if(response.data.code == 666){
+                        this.refs.simpleModal.modalOpen('Ops!', 'Um erro ocorreu', 'Por favor, tente novamente mais tarde.');
+                        console.log(response.data.description);
+                    }
+                }
+            }
+        )
+        .catch(error => {
+            console.log(error.message);
+            this.refs.simpleModal.modalOpen('Ops!', 'Um erro ocorreu', 'Descrição do erro: '+error.message);
             }
         )
     }
@@ -61,6 +77,8 @@ class PmacsMinRegComponent extends Component {
 
         return (
             <div className="container" style={divStyleBox}>
+                <SimpleModal ref="simpleModal" />
+
                 <h3 className="center font_2">Registro Mínimo</h3>
                 <div style={divStylePaddingBottom}></div>
                 <Formik 

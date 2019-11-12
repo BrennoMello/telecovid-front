@@ -66,6 +66,10 @@ div.right {
     padding-bottom: 30px;
 }
 
+.padBottom15{
+    padding-bottom: 15px;
+}
+
 .box{
     width: 50%;
 }
@@ -98,6 +102,15 @@ input.width100{
     width: 100% !important;
 }
 
+.noWidth{
+    width: unset;
+}
+
 .background_darkGray{
     background-color: rgb(228, 228, 228);
+}
+
+input.checkbox{
+    float: left;
+    margin-top: 7px;
 }
