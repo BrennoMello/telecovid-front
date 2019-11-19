@@ -23,7 +23,7 @@ class PmacsPanelComponent extends Component {
     ValidateToken() {
         UserDataService.validateUser(this.state.user.token)
         .then(response => {
-                if(response.data.code == 100){
+                if(response.data.code === 100){
                     if(response.data.validate){
                         console.log(this.state.user.userName+": Token autenticado. Acesso Garantido");
                     }
@@ -32,7 +32,7 @@ class PmacsPanelComponent extends Component {
                     }
                 }
                 else{
-                    if(response.data.code == 666){
+                    if(response.data.code === 666){
                         this.refs.simpleModal.modalOpen('Ops!', 'Um erro ocorreu', 'Por favor, tente novamente mais tarde.');
                         console.log(response.data.description);
                     }

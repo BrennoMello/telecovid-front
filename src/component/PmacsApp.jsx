@@ -4,6 +4,7 @@ import PmacsUserComponent from './PmacsUserComponent';
 import PmacsLoginComponent from './PmacsLoginComponent';
 import PmacsPanelComponent from './PmacsPanelComponent';
 import PmacsMinRegComponent from './PmacsMinRegComponent';
+import PmacsFeedBackEmail from './PmacsFeedBackEmail';
 import PmacsCompRegComponent from './PmacsCompRegComponent';
 import PmacsTermOfUse from './PmacsTermOfUse';
 
@@ -20,6 +21,7 @@ class PmacsApp extends Component {
                     <Route path="/users/:id" component={PmacsUserComponent} />
                     <Route path="/panel" exact component={PmacsPanelComponent} />
                     <Route path="/registroMinimo" exact component={PmacsMinRegComponent} />
+                    <Route path="/registroMinimo/email" exact component={PmacsFeedBackEmail} />
                     <Route path="/registroCompleto" exact component={PmacsCompRegComponent} />
                     <Route path="/registroCompleto/termoDeUso" exact component={PmacsTermOfUse} />
                 </Switch>

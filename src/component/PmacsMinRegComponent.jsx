@@ -33,16 +33,22 @@ class PmacsMinRegComponent extends Component {
         }
         UserDataService.minimalRegisterUser(user)
         .then(response => {
-                if(response.data.code == 100){
+                if(response.data.code === 100){
                     console.log("MinRegistro:")
                     console.log(response.data.description)
                     this.setState({
-                        name: response.data.user.firstName + response.data.user.lastName,
+                        firstName: response.data.user.firstName,
+                        lastName: response.data.user.lastName,
                         email: response.data.user.email
+                    })
+                    this.props.history.push({
+                        pathname: '/registroCompleto/termoDeUso',
+                        //search: '?query=abc',
+                        state: { name: this.state.name, email: this.state.email }
                     })
                 }
                 else{
-                    if(response.data.code == 666){
+                    if(response.data.code === 666){
                         this.refs.simpleModal.modalOpen('Ops!', 'Um erro ocorreu', 'Por favor, tente novamente mais tarde.');
                         console.log(response.data.description);
                     }

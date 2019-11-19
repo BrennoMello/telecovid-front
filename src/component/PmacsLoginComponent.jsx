@@ -42,7 +42,7 @@ class PmacsLoginComponent extends Component {
         }
         UserDataService.authenticateUser(user)
         .then(response => {
-                if(response.data.code == 100){
+                if(response.data.code === 100){
                     this.setState({
                         userName: response.data.user.userName,
                         token: response.data.user.token
@@ -55,8 +55,8 @@ class PmacsLoginComponent extends Component {
                     })
                 }
                 else{
-                    if(response.data.code == 666){
-                        if(response.data.message == 'authenticationFailed'){
+                    if(response.data.code === 666){
+                        if(response.data.message === 'authenticationFailed'){
                             $('.alert').show();
                             this.refs.simpleModal.modalOpen('Ops!', 'Um erro ocorreu', 'Login ou Senha inválidos.');
                         }

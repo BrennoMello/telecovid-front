@@ -20,7 +20,7 @@ class PmacsCompRegComponent extends Component {
 
         this.goToTheTermOfUse = this.goToTheTermOfUse.bind(this)
         this.onSubmit = this.onSubmit.bind(this)
-        
+        this.validate = this.validate.bind(this)
     }
 
     componentDidMount() {
@@ -55,7 +55,7 @@ class PmacsCompRegComponent extends Component {
         }
         UserDataService.createUser(user)
         .then(response => {
-                if(response.data.code == 100){
+                if(response.data.code === 100){
                     this.setState({
                         userName: response.data.user.userName,
                         token: response.data.user.token
@@ -69,8 +69,8 @@ class PmacsCompRegComponent extends Component {
                     })
                 }
                 else{
-                    if(response.data.code == 666){
-                        if(response.data.message == 'UserAlreadyExisting'){
+                    if(response.data.code === 666){
+                        if(response.data.message === 'UserAlreadyExisting'){
                             this.refs.simpleModal.modalOpen('Ops!', 'Um erro ocorreu', 'Esse usuário já existe. Por favor escolha outro.');
                         }
                         else{
@@ -86,6 +86,43 @@ class PmacsCompRegComponent extends Component {
             this.refs.simpleModal.modalOpen('Ops!', 'Um erro ocorreu', 'Descrição do erro: '+error.message);
             }
         )
+    }
+
+    validate(values) {
+        let errors = {}
+        if (!values.firstName) {
+            errors.firstName = 'Entre com um Nome'
+        } else if (values.firstName.length > 200) {
+            errors.firstName = 'Nome grande demais por favor abrevie'
+        }
+
+        if (!values.lastName) {
+            errors.lastName = 'Entre com um Sobrenome'
+        } else if (values.lastName.length > 200) {
+            errors.lastName = 'Sobrenome grande demais por favor abrevie'
+        }
+
+        if (!values.cpf) {
+            errors.cpf = 'Entre com um CPF'
+        }
+
+        if (!values.cns) {
+            errors.cns = 'Entre com um CNS'
+        }
+
+        if (!values.email) {
+            errors.email = 'Entre com um Email'
+        }
+
+        if (!values.password) {
+            errors.password = 'Entre com uma Senha'
+        }
+
+        if (values.confimationPassword !== values.password) {
+            errors.confimationPassword = 'A Confirmação da Senha não corresponde a Senha digitada'
+        }
+    
+        return errors
     }
 
     render() {
@@ -141,7 +178,7 @@ class PmacsCompRegComponent extends Component {
                             <ErrorMessage name="email" component="div" className="alert alert-warning" />
                             <fieldset className="form-group">
                                 <label>Email</label>
-                                <Field className="form-control" type="text" name="email" disabled />
+                                <Field className="form-control" type="email" name="email" disabled />
                             </fieldset>
 
                             <ErrorMessage name="cpf" component="div" className="alert alert-warning" />
@@ -232,13 +269,13 @@ class PmacsCompRegComponent extends Component {
                             <ErrorMessage name="password" component="div" className="alert alert-warning" />
                             <fieldset className="form-group width50">
                                 <label>Senha</label>
-                                <Field className="form-control" type="text" name="password" />
+                                <Field className="form-control" type="password" name="password" />
                             </fieldset>
 
                             <ErrorMessage name="confimationPassword" component="div" className="alert alert-warning" />
                             <fieldset className="form-group width50">
                                 <label>Confime a Senha</label>
-                                <Field className="form-control" type="text" name="confimationPassword" />
+                                <Field className="form-control" type="password" name="confimationPassword" />
                             </fieldset>
 
                             <div className="right padBottom30">
