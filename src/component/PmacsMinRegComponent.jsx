@@ -21,7 +21,6 @@ class PmacsMinRegComponent extends Component {
             name: '',
             email: ''
         }
-        this.onSubmit = this.onSubmit.bind(this)
         this.validate = this.validate.bind(this)
     }
 
@@ -36,15 +35,10 @@ class PmacsMinRegComponent extends Component {
                 if(response.data.code === 100){
                     console.log("MinRegistro:")
                     console.log(response.data.description)
-                    this.setState({
-                        firstName: response.data.user.firstName,
-                        lastName: response.data.user.lastName,
-                        email: response.data.user.email
-                    })
                     this.props.history.push({
-                        pathname: '/registroCompleto/termoDeUso',
+                        pathname: '/registroMinimo/email',
                         //search: '?query=abc',
-                        state: { name: this.state.name, email: this.state.email }
+                        state: { firstName: user.firstName, lastName: user.lastName, email: user.email }
                     })
                 }
                 else{

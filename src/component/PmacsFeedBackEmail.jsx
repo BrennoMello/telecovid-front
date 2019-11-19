@@ -51,9 +51,9 @@ class PmacsFeedBackEmail extends Component {
             <div className="container">
                 <SimpleModal ref="simpleModal" />
                 <div>
-                    <p>{this.state.name},</p> 
+                    <p>{this.state.firstName},</p> 
                     <p>Um email de confirmação foi enviado para {this.state.email}.</p>
-                    <p>Caso você não receba a mensagem em alguns minutos, <label onClick={this.resendEmail}>Clique aqui</label> para reenviar o email. {this.state.email}.</p>
+                    <p>Caso você não receba a mensagem em alguns minutos, <label onClick={this.resendEmail}>Clique aqui</label> para reenviar o email.</p>
                 </div>        
             </div>
         )
