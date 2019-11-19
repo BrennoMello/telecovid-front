@@ -33,7 +33,7 @@ class PmacsMinRegComponent extends Component {
         }
         UserDataService.minimalRegisterUser(user)
         .then(response => {
-                if(true){ //response.data.code === 100
+                if(response.data.code === 100){
                     console.log("MinRegistro:")
                     console.log(response.data.description)
                     this.props.history.push({

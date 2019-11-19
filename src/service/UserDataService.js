@@ -35,10 +35,6 @@ class UserDataService {
     completeRegisterUser(user){
         return axios.post(`${USER_API_URL}/users/completeRegister/`, user);
     }
-
-    sendEmail(user){
-        return axios.post(`${USER_API_URL}/users/sendEmail/`, user);
-    }
     
 }
 

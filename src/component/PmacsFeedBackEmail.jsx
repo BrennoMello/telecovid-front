@@ -22,7 +22,7 @@ class PmacsFeedBackEmail extends Component {
             email: this.state.email
         }
 
-        UserDataService.sendEmail(user)
+        UserDataService.minimalRegisterUser(user)
         .then(response => {
                 if(response.data.code === 100){
                     this.refs.simpleModal.modalOpen('Email Enviado', 'Um email foi enviado para ' + this.state.email, 'Daqui há alguns minutos, por favor, verifique sua caixa de entrada.');
@@ -49,7 +49,7 @@ class PmacsFeedBackEmail extends Component {
                 <div>
                     <p>{this.state.firstName},</p> 
                     <p>Um email de confirmação foi enviado para {this.state.email}.</p>
-                    <p>Caso você não receba a mensagem em alguns minutos, <a href="javascript:void(0);" onClick={this.resendEmail}>Clique aqui</a> para reenviar o email.</p>
+                    <p>Caso você não receba a mensagem em alguns minutos, <a href="#0" onClick={this.resendEmail}>Clique aqui</a> para reenviar o email.</p>
                 </div>        
             </div>
         )
