@@ -21,6 +21,7 @@ class PmacsMinRegComponent extends Component {
             name: '',
             email: ''
         }
+        this.onSubmit = this.onSubmit.bind(this)
         this.validate = this.validate.bind(this)
     }
 
@@ -32,7 +33,7 @@ class PmacsMinRegComponent extends Component {
         }
         UserDataService.minimalRegisterUser(user)
         .then(response => {
-                if(response.data.code === 100){
+                if(true){ //response.data.code === 100
                     console.log("MinRegistro:")
                     console.log(response.data.description)
                     this.props.history.push({

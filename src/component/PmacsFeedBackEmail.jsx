@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import $ from 'jquery';
 import bootstrap from 'bootstrap';
 import UserDataService from '../service/UserDataService';
 import SimpleModal from './modal/SimpleModal';
@@ -13,7 +12,6 @@ class PmacsFeedBackEmail extends Component {
             lastName: this.props.location.state.lastName,
             email: this.props.location.state.email
         }
-        this.onSubmit = this.onSubmit.bind(this)
         this.resendEmail = this.resendEmail.bind(this)
     }
 
@@ -27,12 +25,10 @@ class PmacsFeedBackEmail extends Component {
         UserDataService.sendEmail(user)
         .then(response => {
                 if(response.data.code === 100){
-                    $('.alert').show();
                     this.refs.simpleModal.modalOpen('Email Enviado', 'Um email foi enviado para ' + this.state.email, 'Daqui há alguns minutos, por favor, verifique sua caixa de entrada.');
                 }
                 else{
                     if(response.data.code === 666){
-                        $('.alert').show();
                         this.refs.simpleModal.modalOpen('Ops!', 'Um erro ocorreu', 'Por favor tente mais tarde.');
                         console.log(response.data.description);
                     }
@@ -53,7 +49,7 @@ class PmacsFeedBackEmail extends Component {
                 <div>
                     <p>{this.state.firstName},</p> 
                     <p>Um email de confirmação foi enviado para {this.state.email}.</p>
-                    <p>Caso você não receba a mensagem em alguns minutos, <label onClick={this.resendEmail}>Clique aqui</label> para reenviar o email.</p>
+                    <p>Caso você não receba a mensagem em alguns minutos, <a href="javascript:void(0);" onClick={this.resendEmail}>Clique aqui</a> para reenviar o email.</p>
                 </div>        
             </div>
         )
