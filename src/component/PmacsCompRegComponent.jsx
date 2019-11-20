@@ -13,7 +13,7 @@ class PmacsCompRegComponent extends Component {
         this.state = {
             userName: '',
             firstName: query.get('name').replace('$', ' ').substring(0, query.get('name').indexOf('$')),
-            lastName: query.get('name').substring(query.get('name').indexOf('$')+1),
+            lastName: query.get('name').substring(query.get('name').indexOf('$')+1).split('$').join(' '),
             email: query.get('email'),
             token: ''
         }
@@ -24,7 +24,7 @@ class PmacsCompRegComponent extends Component {
     }
 
     componentDidMount() {
-        console.log(this.state.name + " " + this.state.lastName);
+        console.log(this.state.firstName + " " + this.state.lastName);
         console.log(this.state.email);
     }
 
@@ -114,6 +114,10 @@ class PmacsCompRegComponent extends Component {
             errors.email = 'Entre com um Email'
         }
 
+        if(!values.acceptedTerm){
+            errors.acceptedTerm = 'Você deve aceitar o Termo de Uso para poder proceguir'
+        }
+
         if (!values.password) {
             errors.password = 'Entre com uma Senha'
         }
@@ -140,7 +144,7 @@ class PmacsCompRegComponent extends Component {
         let country = '';
         let uf = '';
         let cep = '';
-        let acceptedTerm = '';
+        let acceptedTerm = false;
         let password = '';
         let confimationPassword = '';
 
@@ -257,7 +261,7 @@ class PmacsCompRegComponent extends Component {
 
                             <ErrorMessage name="acceptedTerm" component="div" className="alert alert-warning" />
                             <fieldset className="form-group padBottom15">
-                                <input type="checkbox" name="acceptedTerm" className="form-control noWidth checkbox" /><label className="padLeft10">Aceito o Termo de Uso</label>
+                                <Field type="checkbox" name="acceptedTerm" className="form-control noWidth checkbox" /><label className="padLeft10">Aceito o Termo de Uso</label>
                             </fieldset>
 
                             <ErrorMessage name="userName" component="div" className="alert alert-warning" />
