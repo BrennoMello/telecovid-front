@@ -123,7 +123,7 @@ class PmacsLoginComponent extends Component {
                             <ErrorMessage name="userName" component="div" className="alert alert-warning" />
                             <fieldset className="form-group">
                                 <label>Login</label>
-                                <Field className="form-control" type="text" name="userName" />
+                                <Field className="form-control" type="text" name="userName" maxlength="50" />
                             </fieldset>
                             <ErrorMessage name="password" component="div" className="alert alert-warning" />
                             <fieldset className="form-group">

@@ -3,6 +3,90 @@ import bootstrap from 'bootstrap';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import UserDataService from '../service/UserDataService';
 import SimpleModal from './modal/SimpleModal';
+import MaskedInput from "react-text-mask";
+
+const phoneHomeMask = [
+    "(",
+    /[1-9]/,
+    /\d/,
+    ")",
+    " ",
+    /\d/,
+    /\d/,
+    /\d/,
+    /\d/,
+    "-",
+    /\d/,
+    /\d/,
+    /\d/,
+    /\d/
+  ];
+
+const phoneCellMask = [
+    "(",
+    /[1-9]/,
+    /\d/,
+    ")",
+    " ",
+    /\d/,
+    " ",
+    /\d/,
+    /\d/,
+    /\d/,
+    /\d/,
+    "-",
+    /\d/,
+    /\d/,
+    /\d/,
+    /\d/
+];
+
+const cpfMask = [
+    /[1-9]/,
+    /\d/,
+    /\d/,
+    ".",
+    /\d/,
+    /\d/,
+    /\d/,
+    ".",
+    /\d/,
+    /\d/,
+    /\d/,
+    "-",
+    /\d/,
+    /\d/
+];
+
+const cnsMask = [
+    /[1-9]/,
+    /\d/,
+    /\d/,
+    /\d/,
+    /\d/,
+    /\d/,
+    /\d/,
+    /\d/,
+    /\d/,
+    /\d/,
+    /\d/,
+    /\d/,
+    /\d/,
+    /\d/,
+    /\d/
+];
+
+const cepMask = [
+    /[1-9]/,
+    /\d/,
+    /\d/,
+    /\d/,
+    /\d/,
+    "-",
+    /\d/,
+    /\d/,
+    /\d/
+  ];
 
 class PmacsCompRegComponent extends Component {
     constructor(props) {
@@ -170,13 +254,13 @@ class PmacsCompRegComponent extends Component {
                             <ErrorMessage name="firstName" component="div" className="alert alert-warning" />
                             <fieldset className="form-group">
                                 <label>Nome</label>
-                                <Field className="form-control" type="text" name="firstName" />
+                                <Field className="form-control" type="text" name="firstName" maxlength="50" />
                             </fieldset>
 
                             <ErrorMessage name="lastName" component="div" className="alert alert-warning" />
                             <fieldset className="form-group">
                                 <label>Sobrenome</label>
-                                <Field className="form-control" type="text" name="lastName" />
+                                <Field className="form-control" type="text" name="lastName" maxlength="150" />
                             </fieldset>
 
                             <ErrorMessage name="email" component="div" className="alert alert-warning" />
@@ -190,11 +274,30 @@ class PmacsCompRegComponent extends Component {
                             <div className="form-inline padBottom30">
                                 <fieldset className="form-group padRight10 width50">
                                     <label className="left">CPF</label>
-                                    <Field className="form-control width100" type="text" name="cpf" />
+                                    <Field name="cpf"
+                                        render={({ field }) => (
+                                            <MaskedInput
+                                                {...field}
+                                                mask={cpfMask}
+                                                type="text"
+                                                className="form-control width100"
+                                            />
+                                        )}
+                                    />
                                 </fieldset>
                                 <fieldset className="form-group width50">
                                     <label className="left">CNS</label>
-                                    <Field className="form-control width100" type="text" name="cns" />
+                                    <Field name="cns"
+                                        render={({ field }) => (
+                                            <MaskedInput
+                                                {...field}
+                                                mask={cnsMask}
+                                                id="cns"
+                                                type="text"
+                                                className="form-control width100"
+                                            />
+                                        )}
+                                    />
                                 </fieldset>
                             </div>
                             
@@ -205,11 +308,32 @@ class PmacsCompRegComponent extends Component {
                                 <div className="form-inline">
                                     <fieldset className="form-group padRight10 width50">
                                         <label className="left">Fixo</label>
-                                        <Field className="form-control width100" type="text" name="phoneHome" />
+                                        <Field name="phoneHome"
+                                            render={({ field }) => (
+                                                <MaskedInput
+                                                    {...field}
+                                                    mask={phoneHomeMask}
+                                                    id="phoneHome"
+                                                    type="text"
+                                                    className="form-control width100"
+                                                />
+                                            )}
+                                        />
                                     </fieldset>
                                     <fieldset className="form-group width50">
                                         <label className="left">Celular</label>
-                                        <Field className="form-control width100" type="text" name="phoneCell" />
+                                        <Field name="phoneCell"
+                                            render={({ field }) => (
+                                                <MaskedInput
+                                                    {...field}
+                                                    mask={phoneCellMask}
+                                                    id="phoneCell"
+                                                    type="text"
+                                                    className="form-control width100"
+                                                />
+                                            )}
+                                        />
+
                                     </fieldset>
                                 </div>
                             </fieldset>
@@ -223,22 +347,33 @@ class PmacsCompRegComponent extends Component {
                                 <div className="form-inline padBottom15">
                                     <fieldset className="form-group width39 padRight10">
                                         <label className="left">CEP</label>
-                                        <Field className="form-control width100" type="text" name="cep" />
+                                        <Field name="cep"
+                                            render={({ field }) => (
+                                                <MaskedInput
+                                                    {...field}
+                                                    mask={cepMask}
+                                                    id="cep"
+                                                    type="text"
+                                                    className="form-control width100"
+                                                />
+                                            )}
+                                        />
+
                                     </fieldset>
                                     <fieldset className="form-group width50 padRight10">
                                         <label className="left">Cidade</label>
-                                        <Field className="form-control width100" type="text" name="country" />
+                                        <Field className="form-control width100" type="text" name="country" maxlength="100" />
                                     </fieldset>
                                     <fieldset className="form-group width11">
                                         <label className="left">UF</label>
-                                        <Field className="form-control width100" type="text" name="uf" />
+                                        <Field className="form-control width100" type="text" name="uf" maxlength="2" />
                                     </fieldset>
                                 </div>
 
                                 <ErrorMessage name="addresses" component="div" className="alert alert-warning" />
                                 <fieldset className="form-group">
                                     <label>Logradouro</label>
-                                    <Field className="form-control" type="text" name="addresses" />
+                                    <Field className="form-control" type="text" name="addresses" maxlength="200" />
                                 </fieldset>
 
                                 <ErrorMessage name="addressesLocality" component="div" className="alert alert-warning" />
@@ -246,11 +381,11 @@ class PmacsCompRegComponent extends Component {
                                 <div className="form-inline padBottom30">
                                     <fieldset className="form-group width50 padRight10">
                                         <label className="left">Bairro</label>
-                                        <Field className="form-control width100" type="text" name="addressesLocality" />
+                                        <Field className="form-control width100" type="text" name="addressesLocality" maxlength="100" />
                                     </fieldset>
                                     <fieldset className="form-group width50">
                                         <label className="left">Complemento</label>
-                                        <Field className="form-control width100" type="text" name="addressesFormatted" />
+                                        <Field className="form-control width100" type="text" name="addressesFormatted" maxlength="200" />
                                     </fieldset>
                                 </div>
                             </fieldset>
@@ -267,7 +402,7 @@ class PmacsCompRegComponent extends Component {
                             <ErrorMessage name="userName" component="div" className="alert alert-warning" />
                             <fieldset className="form-group">
                                 <label>Login</label>
-                                <Field className="form-control" type="text" name="userName" />
+                                <Field className="form-control" type="text" name="userName" maxlength="50" />
                             </fieldset>
 
                             <ErrorMessage name="password" component="div" className="alert alert-warning" />
