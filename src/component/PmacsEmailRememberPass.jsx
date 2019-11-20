@@ -4,6 +4,14 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import UserDataService from '../service/UserDataService';
 import SimpleModal from './modal/SimpleModal';
 
+const divStylePaddingBottom = {
+    paddingBottom: "50px",
+};
+
+const divStyleBox = {
+    width: "50%",
+};
+
 class PmacsEmailRememberPass extends Component {
 
     constructor(props) {
