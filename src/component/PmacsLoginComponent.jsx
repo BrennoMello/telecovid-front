@@ -29,6 +29,7 @@ class PmacsLoginComponent extends Component {
         this.onSubmit = this.onSubmit.bind(this)
         this.validate = this.validate.bind(this)
         this.goToTheMinRegister = this.goToTheMinRegister.bind(this)
+        this.goToTheEmailRememberPass = this.goToTheEmailRememberPass.bind(this)
     }
 
     componentDidMount() {
@@ -94,6 +95,10 @@ class PmacsLoginComponent extends Component {
         this.props.history.push(`/registroMinimo`)
     }
 
+    goToTheEmailRememberPass() {
+        this.props.history.push(`/lebreteSenhaEmail`)
+    }
+
     render() {
         let userName = "";
         let password = "";
@@ -137,6 +142,11 @@ class PmacsLoginComponent extends Component {
                     )
                 }
                 </Formik>
+
+                <div className="left">
+                    <a href="#0" onClick={this.goToTheEmailRememberPass}>Esqueci minha senha</a>
+                </div>
+
                 <div className="center">
                     <button className="btn btn-warning" type="butom" onClick={this.goToTheMinRegister}>Ainda não tem cadastro. Clique aqui</button>
                 </div>
