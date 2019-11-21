@@ -41,8 +41,8 @@ class PmacsChangePass extends Component {
                 }
                 else{
                     if(response.data.code === 666){
-                        if(response.data.message === 'IdNotMatch'){
-                            this.refs.simpleModal.modalOpen('Ops!', 'Um erro ocorreu', 'Identificação do usuário não corresponde.');
+                        if(response.data.message === 'idNotMatch'){
+                            this.refs.simpleModal.modalOpen('Erro grave', 'Identificação do usuário não corresponde.', 'Esse incidente será reportado.');
                         } else if (response.data.message === 'org.apache.axis2.databinding.ADBException'){ 
                             this.refs.simpleModal.modalOpen('Ops!', 'Um erro ocorreu', 'É possível que esse usuário não exista.');
                         }
