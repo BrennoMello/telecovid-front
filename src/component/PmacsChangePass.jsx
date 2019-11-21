@@ -12,14 +12,17 @@ const divStyleBox = {
     width: "50%",
 };
 
-class PmacsEmailRememberPass extends Component {
+class PmacsChangePass extends Component {
 
     constructor(props) {
         super(props)
 
+        const query = new URLSearchParams(this.props.location.search);
+
         this.state = {
-            userName:'',
-            email: ''
+            id: query.get('id'),
+            userName: query.get('userName'),
+            password: ''
         }
         this.onSubmit = this.onSubmit.bind(this)
         this.validate = this.validate.bind(this)
@@ -27,17 +30,22 @@ class PmacsEmailRememberPass extends Component {
 
     onSubmit(values) {
         let user = {
-            userName: values.userName,
-            email: values.email
+            id: this.state.id,
+            userName: this.state.userName,
+            password: values.password
         }
-        UserDataService.rememberPass(user)
+        UserDataService.updatePassword(user)
         .then(response => {
                 if(response.data.code === 100){
-                    this.refs.simpleModal.modalOpen('Email Enviado', 'Um email com instruções de recuperação de senha foi enviado para ' + values.email, 'Por favor, siga as instruções.');
+                    this.refs.simpleModal.modalOpen('Senha alterada', 'A senha da sua conta foi alterada ', 'Acesse a plataforma com sua nova senha');
                 }
                 else{
                     if(response.data.code === 666){
-                        this.refs.simpleModal.modalOpen('Ops!', 'Um erro ocorreu', 'Por favor tente mais tarde.');
+                        if(response.data.message === 'IdNotMatch'){
+                            this.refs.simpleModal.modalOpen('Ops!', 'Um erro ocorreu', 'Identificação do usuário não corresponde.');
+                        } else if (response.data.message === 'org.apache.axis2.databinding.ADBException'){ 
+                            this.refs.simpleModal.modalOpen('Ops!', 'Um erro ocorreu', 'É possível que esse usuário não exista.');
+                        }
                         console.log(response.data.description);
                     }
                 }
@@ -52,33 +60,28 @@ class PmacsEmailRememberPass extends Component {
 
     validate(values) {
         let errors = {}
-        if (!values.userName) {
-            errors.userName = 'Entre com seu Login'
-        }
-
-        if (!values.email) {
-            errors.email = 'Entre com seu Email'
+        if (!values.password) {
+            errors.password = 'Entre com uma Senha'
         }
     
         return errors
     }
 
     render() {
-        let userName = "";
-        let email = "";
+        let password = "";
 
         return (
             <div className="container" style={divStyleBox}>
                 <SimpleModal ref="simpleModal" />
-
-                <div style={divStylePaddingBottom}></div>
-
+                <br></br>
+                <h3 className="font_2">Recuperação de Senha</h3>
+                <br></br>
                 <div>
-                    <p>Para recuperar sua senha, por favor informe seu Login e o email que foi cadastrado na sua conta.</p>
+                    <p>Por favor, defina uma nova senha para sua conta.</p>
                 </div>
 
                 <Formik 
-                    initialValues={{userName, email}}
+                    initialValues={{password}}
                     onSubmit={this.onSubmit}
                     validate={this.validate}
                     validateOnChange={false}
@@ -88,15 +91,10 @@ class PmacsEmailRememberPass extends Component {
                 {
                     (props) => (
                         <Form>
-                            <ErrorMessage name="userName" component="div" className="alert alert-warning" />
+                            <ErrorMessage name="password" component="div" className="alert alert-warning" />
                             <fieldset className="form-group">
-                                <label>Login</label>
-                                <Field className="form-control" type="text" name="userName" maxLength="50" />
-                            </fieldset>
-                            <ErrorMessage name="email" component="div" className="alert alert-warning" />
-                            <fieldset className="form-group">
-                                <label>Email</label>
-                                <Field className="form-control" type="email" name="email" maxLength="50" />
+                                <label>Nova Senha</label>
+                                <Field className="form-control" type="password" name="password" />
                             </fieldset>
                             <div style={divStylePaddingBottom}>
                                 <button className="btn btn-success" type="submit">Enviar</button>
@@ -110,4 +108,4 @@ class PmacsEmailRememberPass extends Component {
     }
 }
 
-export default PmacsEmailRememberPass
+export default PmacsChangePass

@@ -35,6 +35,14 @@ class UserDataService {
     completeRegisterUser(user){
         return axios.post(`${USER_API_URL}/users/completeRegister/`, user);
     }
+
+    rememberPass(user){
+        return axios.post(`${USER_API_URL}/users/rememberPass/`, user);
+    }
+
+    updatePassword(user){
+        return axios.post(`${USER_API_URL}/users/updatePassword/`, user);
+    }
     
 }
 

@@ -8,6 +8,7 @@ import PmacsFeedBackEmail from './PmacsFeedBackEmail';
 import PmacsCompRegComponent from './PmacsCompRegComponent';
 import PmacsTermOfUse from './PmacsTermOfUse';
 import PmacsEmailRememberPass from './PmacsEmailRememberPass';
+import PmacsChangePass from './PmacsChangePass';
 
 class PmacsApp extends Component {
     render() {
@@ -26,6 +27,7 @@ class PmacsApp extends Component {
                     <Route path="/registroCompleto" exact component={PmacsCompRegComponent} />
                     <Route path="/registroCompleto/termoDeUso" exact component={PmacsTermOfUse} />
                     <Route path="/lebreteSenhaEmail" exact component={PmacsEmailRememberPass} />
+                    <Route path="/recuperacaoSenha" exact component={PmacsChangePass} />
                 </Switch>
                 </>
             </Router>

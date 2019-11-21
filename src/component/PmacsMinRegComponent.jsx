@@ -96,12 +96,12 @@ class PmacsMinRegComponent extends Component {
                             <ErrorMessage name="name" component="div" className="alert alert-warning" />
                             <fieldset className="form-group">
                                 <label>Nome</label>
-                                <Field className="form-control" type="text" name="name" maxlength="200" />
+                                <Field className="form-control" type="text" name="name" maxLength="200" />
                             </fieldset>
                             <ErrorMessage name="email" component="div" className="alert alert-warning" />
                             <fieldset className="form-group">
                                 <label>Email</label>
-                                <Field className="form-control" type="email" name="email" maxlength="50" />
+                                <Field className="form-control" type="email" name="email" maxLength="50" />
                             </fieldset>
                             <div style={divStylePaddingBottom}>
                                 <button className="btn btn-success" type="submit">Enviar</button>

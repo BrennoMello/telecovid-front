@@ -254,13 +254,13 @@ class PmacsCompRegComponent extends Component {
                             <ErrorMessage name="firstName" component="div" className="alert alert-warning" />
                             <fieldset className="form-group">
                                 <label>Nome</label>
-                                <Field className="form-control" type="text" name="firstName" maxlength="50" />
+                                <Field className="form-control" type="text" name="firstName" maxLength="50" />
                             </fieldset>
 
                             <ErrorMessage name="lastName" component="div" className="alert alert-warning" />
                             <fieldset className="form-group">
                                 <label>Sobrenome</label>
-                                <Field className="form-control" type="text" name="lastName" maxlength="150" />
+                                <Field className="form-control" type="text" name="lastName" maxLength="150" />
                             </fieldset>
 
                             <ErrorMessage name="email" component="div" className="alert alert-warning" />
@@ -362,18 +362,18 @@ class PmacsCompRegComponent extends Component {
                                     </fieldset>
                                     <fieldset className="form-group width50 padRight10">
                                         <label className="left">Cidade</label>
-                                        <Field className="form-control width100" type="text" name="country" maxlength="100" />
+                                        <Field className="form-control width100" type="text" name="country" maxLength="100" />
                                     </fieldset>
                                     <fieldset className="form-group width11">
                                         <label className="left">UF</label>
-                                        <Field className="form-control width100" type="text" name="uf" maxlength="2" />
+                                        <Field className="form-control width100" type="text" name="uf" maxLength="2" />
                                     </fieldset>
                                 </div>
 
                                 <ErrorMessage name="addresses" component="div" className="alert alert-warning" />
                                 <fieldset className="form-group">
                                     <label>Logradouro</label>
-                                    <Field className="form-control" type="text" name="addresses" maxlength="200" />
+                                    <Field className="form-control" type="text" name="addresses" maxLength="200" />
                                 </fieldset>
 
                                 <ErrorMessage name="addressesLocality" component="div" className="alert alert-warning" />
@@ -381,11 +381,11 @@ class PmacsCompRegComponent extends Component {
                                 <div className="form-inline padBottom30">
                                     <fieldset className="form-group width50 padRight10">
                                         <label className="left">Bairro</label>
-                                        <Field className="form-control width100" type="text" name="addressesLocality" maxlength="100" />
+                                        <Field className="form-control width100" type="text" name="addressesLocality" maxLength="100" />
                                     </fieldset>
                                     <fieldset className="form-group width50">
                                         <label className="left">Complemento</label>
-                                        <Field className="form-control width100" type="text" name="addressesFormatted" maxlength="200" />
+                                        <Field className="form-control width100" type="text" name="addressesFormatted" maxLength="200" />
                                     </fieldset>
                                 </div>
                             </fieldset>
@@ -402,7 +402,7 @@ class PmacsCompRegComponent extends Component {
                             <ErrorMessage name="userName" component="div" className="alert alert-warning" />
                             <fieldset className="form-group">
                                 <label>Login</label>
-                                <Field className="form-control" type="text" name="userName" maxlength="50" />
+                                <Field className="form-control" type="text" name="userName" maxLength="50" />
                             </fieldset>
 
                             <ErrorMessage name="password" component="div" className="alert alert-warning" />

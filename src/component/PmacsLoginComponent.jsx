@@ -17,6 +17,14 @@ const divStyleNone = {
     display: "none",
 };
 
+const floatLeft = {
+    float: "left",
+}
+
+const verticalAlign = {
+    padding: "7px 0",
+}
+
 class PmacsLoginComponent extends Component {
 
     constructor(props) {
@@ -79,13 +87,13 @@ class PmacsLoginComponent extends Component {
     validate(values) {
         let errors = {}
         if (!values.userName) {
-            errors.userName = 'Entre com um Nome'
-        } else if (values.userName.length > 200) {
-            errors.userName = 'Nome grande demais por favor abrevie'
+            errors.userName = 'Entre com seu Login'
+        } else if (values.userName.length > 50) {
+            errors.userName = 'Login grande demais'
         }
 
         if (!values.password) {
-            errors.password = 'Entre com uma Senha'
+            errors.password = 'Entre com sua Senha'
         }
     
         return errors
@@ -128,7 +136,7 @@ class PmacsLoginComponent extends Component {
                             <ErrorMessage name="userName" component="div" className="alert alert-warning" />
                             <fieldset className="form-group">
                                 <label>Login</label>
-                                <Field className="form-control" type="text" name="userName" maxlength="50" />
+                                <Field className="form-control" type="text" name="userName" maxLength="50" />
                             </fieldset>
                             <ErrorMessage name="password" component="div" className="alert alert-warning" />
                             <fieldset className="form-group">
@@ -136,16 +144,17 @@ class PmacsLoginComponent extends Component {
                                 <Field className="form-control" type="password" name="password" />
                             </fieldset>
                             <div style={divStylePaddingBottom}>
-                                <button className="btn btn-success" type="submit">Login</button>
+                                <div style={floatLeft}>
+                                    <button className="btn btn-success" type="submit">Login</button>
+                                </div>
+                                <div className="right" style={verticalAlign}>
+                                    <a href="#0" onClick={this.goToTheEmailRememberPass}>Esqueci minha senha</a>
+                                </div>
                             </div>
                         </Form>
                     )
                 }
                 </Formik>
-
-                <div className="left">
-                    <a href="#0" onClick={this.goToTheEmailRememberPass}>Esqueci minha senha</a>
-                </div>
 
                 <div className="center">
                     <button className="btn btn-warning" type="butom" onClick={this.goToTheMinRegister}>Ainda não tem cadastro. Clique aqui</button>
