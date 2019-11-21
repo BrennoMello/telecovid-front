@@ -37,7 +37,12 @@ class PmacsEmailRememberPass extends Component {
                 }
                 else{
                     if(response.data.code === 666){
-                        this.refs.simpleModal.modalOpen('Ops!', 'Um erro ocorreu', 'Por favor tente mais tarde.');
+                        if (response.data.message === 'org.apache.axis2.databinding.ADBException'){ 
+                            this.refs.simpleModal.modalOpen('Ops!', 'Um erro ocorreu', 'É possível que esse usuário não exista.');
+                        }
+                        else{
+                            this.refs.simpleModal.modalOpen('Ops!', 'Um erro ocorreu', 'Por favor tente mais tarde.');
+                        }
                         console.log(response.data.description);
                     }
                 }
