@@ -3,6 +3,14 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import UserDataService from '../service/UserDataService';
 import SimpleModal from './modal/SimpleModal';
 
+const divStyleBox = {
+    width: "50%",
+};
+
+const divStylePaddingBottom = {
+    paddingBottom: "50px",
+};
+
 class PmacsPanelComponent extends Component {
     constructor(props) {
         super(props)
@@ -48,13 +56,24 @@ class PmacsPanelComponent extends Component {
 
     render() {
         return (
-            <div className="container">
+            <div className="container" style={divStyleBox}>
                 <SimpleModal ref="simpleModal" />
-                <h2 className="font_2">Painel</h2>
+                <h2 className="font_2" style={divStylePaddingBottom}>Painel</h2>
 
+                <div>
+                    <form method="post" action="#" id="#">
+                        <div className="form-group files">
+                            <label>Upload arquivo E-SUS AB</label>
+                            <input type="file" className="form-control" multiple />
+                        </div>
+                    </form>
+                </div>
+
+                {/*
                 <div className="center">
                     <button className="btn btn-warning" type="butom" onClick={this.ValidateToken}>Validar Token</button>
                 </div>
+                */}
             </div>
         )
     }

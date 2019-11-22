@@ -4,6 +4,8 @@ import { Formik, Form, Field, ErrorMessage } from 'formik';
 import UserDataService from '../service/UserDataService';
 import SimpleModal from './modal/SimpleModal';
 import MaskedInput from "react-text-mask";
+import validatorBr from 'validator-brazil';
+
 
 const phoneHomeMask = [
     "(",
@@ -105,6 +107,8 @@ class PmacsCompRegComponent extends Component {
         this.goToTheTermOfUse = this.goToTheTermOfUse.bind(this)
         this.onSubmit = this.onSubmit.bind(this)
         this.validate = this.validate.bind(this)
+        this.validateCNS = this.validateCNS.bind(this)
+        this.ponderSum = this.ponderSum.bind(this)
     }
 
     componentDidMount() {
@@ -172,6 +176,22 @@ class PmacsCompRegComponent extends Component {
         )
     }
 
+    validateCNS(cns) {
+        if (cns.match("[1-2]\\d{10}00[0-1]\\d") || cns.match("[7-9]\\d{14}")) {
+            return this.ponderSum(cns) % 11 == 0;
+        }
+        return false;
+    }
+        
+    ponderSum(cns) {
+        let cs = cns.split('');
+        let soma = 0;
+        for (var i = 0; i < cs.length; i++) {
+            soma += parseInt(cs[i]) * (15 - i);
+        }
+        return soma;
+    }
+
     validate(values) {
         let errors = {}
         if (!values.firstName) {
@@ -188,10 +208,20 @@ class PmacsCompRegComponent extends Component {
 
         if (!values.cpf) {
             errors.cpf = 'Entre com um CPF'
+        } 
+        else{
+            if(!validatorBr.isCpf(values.cpf)){
+                errors.cpf = 'CPF inválido'
+            }
         }
 
         if (!values.cns) {
             errors.cns = 'Entre com um CNS'
+        }
+        else{
+            if(!this.validateCNS(values.cns)){
+                errors.cns = 'CNS inválido'
+            }
         }
 
         if (!values.email) {
