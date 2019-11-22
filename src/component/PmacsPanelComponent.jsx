@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
-import UserDataService from '../service/UserDataService';
 import SimpleModal from './modal/SimpleModal';
+import FileUpload from './upload/FileUpload';
+import ValidateToken from './token/ValidateToken';
 
 const divStyleBox = {
     width: "50%",
@@ -21,37 +22,11 @@ class PmacsPanelComponent extends Component {
                 token: this.props.location.state.token
             }
         }
-        this.ValidateToken = this.ValidateToken.bind(this)
+        
     }
 
     componentDidMount() {
         console.log(this.state.user.token);
-    }
-
-    ValidateToken() {
-        UserDataService.validateUser(this.state.user.token)
-        .then(response => {
-                if(response.data.code === 100){
-                    if(response.data.validate){
-                        console.log(this.state.user.userName+": Token autenticado. Acesso Garantido");
-                    }
-                    else{
-                        console.log("Token não autenticado. Acesso Negado");
-                    }
-                }
-                else{
-                    if(response.data.code === 666){
-                        this.refs.simpleModal.modalOpen('Ops!', 'Um erro ocorreu', 'Por favor, tente novamente mais tarde.');
-                        console.log(response.data.description);
-                    }
-                }
-            }
-        )
-        .catch(error => {
-            console.log(error.message);
-            this.refs.simpleModal.modalOpen('Ops!', 'Um erro ocorreu', 'Descrição do erro: '+error.message);
-            }
-        )
     }
 
     render() {
@@ -60,20 +35,13 @@ class PmacsPanelComponent extends Component {
                 <SimpleModal ref="simpleModal" />
                 <h2 className="font_2" style={divStylePaddingBottom}>Painel</h2>
 
-                <div>
-                    <form method="post" action="#" id="#">
-                        <div className="form-group files">
-                            <label>Upload arquivo E-SUS AB</label>
-                            <input type="file" className="form-control" multiple />
-                        </div>
-                    </form>
-                </div>
-
+                <FileUpload/>
+                
                 {/*
-                <div className="center">
-                    <button className="btn btn-warning" type="butom" onClick={this.ValidateToken}>Validar Token</button>
-                </div>
+                    <ValidateToken user={this.state.user}/>
                 */}
+                
+                
             </div>
         )
     }

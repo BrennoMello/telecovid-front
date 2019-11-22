@@ -178,7 +178,7 @@ class PmacsCompRegComponent extends Component {
 
     validateCNS(cns) {
         if (cns.match("[1-2]\\d{10}00[0-1]\\d") || cns.match("[7-9]\\d{14}")) {
-            return this.ponderSum(cns) % 11 == 0;
+            return this.ponderSum(cns) % 11 === 0;
         }
         return false;
     }

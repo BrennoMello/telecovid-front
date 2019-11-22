@@ -43,6 +43,10 @@ class UserDataService {
     updatePassword(user){
         return axios.post(`${USER_API_URL}/users/updatePassword/`, user);
     }
+
+    uploadFiles(data){
+        return axios.post(`${USER_API_URL}/users/uploadFiles/`, data);
+    }
     
 }
 
