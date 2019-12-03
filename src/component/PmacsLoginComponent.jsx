@@ -38,6 +38,7 @@ class PmacsLoginComponent extends Component {
         this.validate = this.validate.bind(this)
         this.goToTheMinRegister = this.goToTheMinRegister.bind(this)
         this.goToTheEmailRememberPass = this.goToTheEmailRememberPass.bind(this)
+        this.getVersion = this.getVersion.bind(this)
     }
 
     componentDidMount() {
@@ -97,6 +98,17 @@ class PmacsLoginComponent extends Component {
         }
     
         return errors
+    }
+
+    getVersion(){
+        UserDataService.getVersion()
+        .then(response => {
+                if(response.data.code === 100){
+                    console.log(response.data.description);
+                }
+               
+            }
+        )
     }
 
     goToTheMinRegister() {
@@ -159,7 +171,11 @@ class PmacsLoginComponent extends Component {
                 <div className="center">
                     <button className="btn btn-warning" type="butom" onClick={this.goToTheMinRegister}>Ainda não tem cadastro. Clique aqui</button>
                 </div>
-        
+                
+                <div className="center">
+                    <button className="btn btn-warning" type="butom" onClick={this.getVersion}>Get Version</button>
+                </div>
+
             </div>
         )
     }

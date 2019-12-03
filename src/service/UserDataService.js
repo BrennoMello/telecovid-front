@@ -1,6 +1,7 @@
 import axios from 'axios'
 
-const USER_API_URL = 'http://localhost:8083'
+const USER_API_URL = 'http://pmacs.projetos.local:31000/v1/autenticacao'
+const FILE_API_URL = 'http://pmacs.projetos.local:31000/v1/upload'
 
 class UserDataService {
 
@@ -45,9 +46,12 @@ class UserDataService {
     }
 
     uploadFiles(data){
-        return axios.post(`${USER_API_URL}/users/uploadFiles/`, data);
+        return axios.post(`${FILE_API_URL}/uploadArquivo/`, data);
     }
-    
+
+    getVersion() {
+        return axios.get(`${USER_API_URL}/version`);
+    }
 }
 
 export default new UserDataService()
