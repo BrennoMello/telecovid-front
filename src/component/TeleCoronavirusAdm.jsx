@@ -72,7 +72,7 @@ class TeleCoronavirusAdm extends Component {
     }
 
     changeStatus(candidato) {
-        UserDataService.changeStatus(candidato)
+        UserDataService.changeStatus(candidato, this.state.chave)
         .then(response => {
             this.setState({loadingActive: false})
             if(response.status === 200){

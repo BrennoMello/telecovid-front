@@ -10,6 +10,7 @@ import PmacsTermOfUse from './PmacsTermOfUse';
 import PmacsEmailRememberPass from './PmacsEmailRememberPass';
 import PmacsChangePass from './PmacsChangePass';
 import TeleCoronavirusAdm from './TeleCoronavirusAdm';
+import TeleCoronavirusRegistroAtendimento from './TeleCoronavirusRegistroAtendimento';
 
 
 class PmacsApp extends Component {
@@ -20,7 +21,7 @@ class PmacsApp extends Component {
                 <Switch>
                     <Route path="/" exact component={TeleCoronavirusSerVoluntario} />
                     <Route path="/adm" exact component={TeleCoronavirusAdm} />
-                    <Route path="/panel" exact component={PmacsPanelComponent} />
+                    <Route path="/registro" exact component={TeleCoronavirusRegistroAtendimento} />
                     <Route path="/registroMinimo" exact component={PmacsMinRegComponent} />
                     <Route path="/registroMinimo/email" exact component={PmacsFeedBackEmail} />
                     <Route path="/registroCompleto" exact component={PmacsCompRegComponent} />

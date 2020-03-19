@@ -6,7 +6,6 @@ import UserDataService from '../service/UserDataService';
 import SimpleModal from './modal/SimpleModal';
 import {Container, Row, Col  } from "react-bootstrap";
 import Switch from "react-switch";
-import InputMask from 'react-input-mask';
 import MaskedInput from "react-text-mask";
 import validatorBr from 'validator-brazil';
 import { Loader } from 'react-overlay-loader';
@@ -32,10 +31,6 @@ const cpfMask = [
 
 const divStylePaddingBottom = {
     paddingBottom: "50px",
-};
-
-const divStyleBox = {
-    width: "50%",
 };
 
 class TeleCoronavirusSerVoluntario extends Component {
@@ -176,7 +171,7 @@ class TeleCoronavirusSerVoluntario extends Component {
                                             />
                                         </fieldset>
                                         <fieldset className="form-group">
-                                                <button disabled={this.state.checked ? false : true} className="form-control btn btn-success" type="submit">Ser um Voluntário</button>
+                                            <button disabled={this.state.checked ? false : true} className="form-control btn btn-success" type="submit">Ser um Voluntário</button>
                                         </fieldset>
                                     </Form>
                                 )
