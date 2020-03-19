@@ -1,10 +1,10 @@
 import axios from 'axios'
 
-const USER_API_URL = 'http://pmacs.projetos.local:31000/v1/autenticacao'
-const FILE_API_URL = 'http://pmacs.projetos.local:31000/v1/upload'
+const VOLUNTARIO_API_URL = 'http://localhost:8080'
 
 class UserDataService {
 
+/*
     retrieveUser(id) {
         return axios.get(`${USER_API_URL}/users/${id}`);
     }
@@ -44,14 +44,27 @@ class UserDataService {
     updatePassword(user){
         return axios.post(`${USER_API_URL}/users/updatePassword/`, user);
     }
+*/
 
-    uploadFiles(data){
-        return axios.post(`${FILE_API_URL}/uploadArquivo/`, data);
-    }
 
     getVersion() {
-        return axios.get(`${USER_API_URL}/version`);
+        return axios.get(`${VOLUNTARIO_API_URL}/version`);
     }
+
+    serUmVoluntario(voluntario) {
+        return axios.post(`${VOLUNTARIO_API_URL}/voluntario/`, voluntario);
+    }
+
+    retrieveAdminAreaData(chave) {
+        return axios.get(`${VOLUNTARIO_API_URL}/adm/`, chave);
+    }
+
+    changeStatus(voluntario) {
+        console.log("changeStatus:")
+        console.log(voluntario)
+        return axios.post(`${VOLUNTARIO_API_URL}/voluntario/status`, voluntario);
+    }
+
 }
 
 export default new UserDataService()
