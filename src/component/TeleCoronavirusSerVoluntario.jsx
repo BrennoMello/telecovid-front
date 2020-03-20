@@ -139,17 +139,17 @@ class TeleCoronavirusSerVoluntario extends Component {
                                     <Form>
                                         <ErrorMessage name="nome" component="div" className="alert alert-warning" />
                                         <fieldset className="form-group" style={{textAlign:'left'}}>
-                                            <label>Nome Completo</label>
+                                            <label><b style={{color:'red'}}>*</b>Nome Completo</label>
                                             <Field className="form-control" type="text" name="nome" />
                                         </fieldset>
                                         <ErrorMessage name="email" component="div" className="alert alert-warning" />
                                         <fieldset className="form-group" style={{textAlign:'left'}}>
-                                            <label>E-mail</label>
+                                            <label><b style={{color:'red'}}>*</b>E-mail</label>
                                             <Field className="form-control" type="email" name="email" />
                                         </fieldset>
                                         <ErrorMessage name="cpf" component="div" className="alert alert-warning" />
                                         <fieldset className="form-group" style={{textAlign:'left'}}>
-                                            <label>CPF</label>
+                                            <label><b style={{color:'red'}}>*</b>CPF</label>
                                             <Field name="cpf"
                                                 render={({ field }) => (
                                                     <MaskedInput
@@ -162,7 +162,7 @@ class TeleCoronavirusSerVoluntario extends Component {
                                             />
                                         </fieldset>
                                         <fieldset className="form-group" style={{textAlign:'center'}}>
-                                            <label>CONCORDO COM OS TERMOS</label>
+                                            <label><b style={{color:'red'}}>*</b>CONCORDO COM OS TERMOS</label>
                                             <br/>
                                             <Switch
                                                 onChange={this.handleChange}

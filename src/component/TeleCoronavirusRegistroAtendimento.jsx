@@ -16,6 +16,42 @@ const idadeMask = [
     /\d/,
 ];
 
+const celularMask = [
+    "(",
+    /[1-9]/,
+    /\d/,
+    ")",
+    " ",
+    /\d/,
+    " ",
+    /\d/,
+    /\d/,
+    /\d/,
+    /\d/,
+    "-",
+    /\d/,
+    /\d/,
+    /\d/,
+    /\d/
+];
+
+const fixoMask = [
+    "(",
+    /[1-9]/,
+    /\d/,
+    ")",
+    " ",
+    /\d/,
+    /\d/,
+    /\d/,
+    /\d/,
+    "-",
+    /\d/,
+    /\d/,
+    /\d/,
+    /\d/
+  ];
+
 const divStylePaddingBottom = {
     paddingBottom: "30px",
 };
@@ -92,6 +128,7 @@ class TeleCoronavirusRegistroAtendimento extends Component {
         this.getBairros = this.getBairros.bind(this)
         this.getUss = this.getUss.bind(this)
         this.onBlurBairro = this.onBlurBairro.bind(this)
+        this.onBlurCidade = this.onBlurCidade.bind(this)
         this.usSelected = this.usSelected.bind(this)
         
     }
@@ -146,10 +183,10 @@ class TeleCoronavirusRegistroAtendimento extends Component {
         )
     }
 
-    getBairros(e){
-        if(e.target.value){
+    getBairros(cidade){
+        if(cidade){
             this.setState({loadingActive: true})
-            UserDataService.retrieveBairros(e.target.value, this.state.chave)
+            UserDataService.retrieveBairros(cidade, this.state.chave)
             .then(response => {
                 this.setState({loadingActive: false})
                 if(response.status === 200){
@@ -169,10 +206,108 @@ class TeleCoronavirusRegistroAtendimento extends Component {
         }
     }
 
+    getUss(e){
+        if(e.target.value){
+            if(this.cidadeRef.current.value && this.bairroRef.current.value){
+                if(e.target.value === "moderada" || e.target.value === "grave"){
+                    let usRequisitos = {
+                        cidade:this.cidadeRef.current.value,
+                        bairro:this.bairroRef.current.value,
+                        classificacao:e.target.value
+                    }
+
+                    this.setState({loadingActive: true})
+                    UserDataService.retrieveUss(usRequisitos, this.state.chave)
+                    .then(response => {
+                        this.setState({loadingActive: false})
+                        if(response.status === 200){
+                            this.setState({uss: response.data, usDisabled:false})
+                        }
+                        else{
+                            this.refs.simpleModal.modalOpen('Ops!', 'Um erro ocorreu', 'Por favor, tente novamente mais tarde.');
+                            console.log(response.data.description);
+                        }
+                    })
+                    .catch(error => {
+
+                        this.setState({usDisabled: false})// em producao me tire daqui
+
+
+                        this.setState({loadingActive: false})
+                        console.log(error.message);
+                        this.refs.simpleModal.modalOpen('Ops!', 'Um erro ocorreu', 'Descrição do erro: '+error.message);
+                        }
+                    )
+                }
+                else{
+                    if(e.target.value === "selecione" || e.target.value === "leve"){
+                        this.setState({usDados:"none", usDisabled:true});
+                        this.usRef.current.value = "Selecione...";
+                    }
+                }
+            }
+            else{
+                this.classificacaoRef.current.value = "selecione";
+                alert("Por favor, informe a Cidade e o Bairro");
+            }
+        }
+    }
+
+    onSubmit(values) {
+        if(window.confirm("Confirma registro com os dados abaixo: \n\n" + 
+                "Cidade: "+ this.cidadeRef.current.value + "\n" +
+                "Bairro: "+ this.bairroRef.current.value + "\n" +
+                "Idade: "+ values.idade + "\n" +
+                "Nome: "+ values.nome + "\n" +
+                "Telefone Celular: "+ values.celular + "\n" +
+                "Telefone Fixo: "+ values.fixo + "\n" +
+                "Classificacao: "+ this.classificacaoRef.current.value + "\n" +
+                "Unidade de Saúde: "+ (this.usRef.current.value!='Selecione...' ? this.usRef.current.value : '') + "\n" +
+                "Comentário: "+ values.comentario
+            )){
+            this.setState({loadingActive: true})
+            let registro = {
+                    cidade: this.cidadeRef.current.value,
+                    bairro: this.bairroRef.current.value,
+                    idade: values.idade,
+                    nome: values.nome,
+                    celular: values.celular,
+                    fixo: values.fixo,
+                    classificacao: this.classificacaoRef.current.value,
+                    us: this.usRef.current.value!='Selecione...' ? this.usRef.current.value : '',
+                    comentario: values.comentario
+                }
+            UserDataService.registrarAtendimento(registro, this.state.chave)
+            .then(response => {
+                    this.setState({loadingActive: false})
+                    if(response.status === 200){
+                        this.refs.simpleModal.modalOpen('Sucesso!', 'Registro efetuado');
+                    }
+                    else{
+                        this.refs.simpleModal.modalOpen('Ops!', 'Um erro ocorreu', 'Por favor, tente novamente mais tarde.');
+                        console.log(response.data.description);
+                    }
+                }
+            )
+            .catch(error => {
+                this.setState({loadingActive: false})
+                console.log(error.message);
+                this.refs.simpleModal.modalOpen('Ops!', 'Um erro ocorreu', 'Descrição do erro: '+error.message);
+                }
+            )
+        }
+    }
+
     onBlurBairro(){
-        if(this.cidadeRef.current.value != "" && this.bairroRef.current.value != ""){
+        if(this.cidadeRef.current.value && this.bairroRef.current.value){
             this.setState({classificacaoDisabled: false})
         }
+    }
+
+    onBlurCidade(e){
+        setTimeout(() => {
+            this.getBairros(this.cidadeRef.current.value)
+        }, 200);
     }
 
     usSelected(e){
@@ -197,78 +332,6 @@ class TeleCoronavirusRegistroAtendimento extends Component {
         }
     }
 
-    getUss(e){
-        if(e.target.value && e.target.value != "selecione" && this.cidadeRef.current.value && this.bairroRef.current.value){ 
-            let usRequisitos = {
-                cidade:this.cidadeRef.current.value,
-                bairro:this.bairroRef.current.value,
-                classificacao:e.target.value
-            }
-
-            this.setState({loadingActive: true})
-            UserDataService.retrieveUss(usRequisitos, this.state.chave)
-            .then(response => {
-                this.setState({loadingActive: false})
-                if(response.status === 200){
-                    this.setState({uss: response.data, usDisabled:false})
-                }
-                else{
-                    this.refs.simpleModal.modalOpen('Ops!', 'Um erro ocorreu', 'Por favor, tente novamente mais tarde.');
-                    console.log(response.data.description);
-                }
-            })
-            .catch(error => {
-
-                this.setState({usDisabled: false})// em producao me tire daqui
-
-
-                this.setState({loadingActive: false})
-                console.log(error.message);
-                this.refs.simpleModal.modalOpen('Ops!', 'Um erro ocorreu', 'Descrição do erro: '+error.message);
-                }
-            )
-        }
-    }
-
-    onSubmit(values) {
-        if(window.confirm("Confirma registro com os dados abaixo: \n\n" + 
-                "Cidade: "+ this.cidadeRef.current.value + "\n" +
-                "Bairro: "+ this.bairroRef.current.value + "\n" +
-                "Idade: "+ values.idade + "\n" +
-                "Classificacao: "+ values.classificacao + "\n" +
-                "Unidade de Saúde: "+ values.us + "\n" +
-                "Comentário: "+ values.comentario
-            )){
-            this.setState({loadingActive: true})
-            let registro = {
-                    cidade: this.cidadeRef.current.value,
-                    bairro: this.bairroRef.current.value,
-                    idade: values.idade,
-                    classificacao: values.classificacao,
-                    us: values.us,
-                    comentario: values.comentario
-                }
-            UserDataService.registrarAtendimento(registro, this.state.chave)
-            .then(response => {
-                    this.setState({loadingActive: false})
-                    if(response.status === 200){
-                        this.refs.simpleModal.modalOpen('Sucesso!', 'Registro efetuado');
-                    }
-                    else{
-                        this.refs.simpleModal.modalOpen('Ops!', 'Um erro ocorreu', 'Por favor, tente novamente mais tarde.');
-                        console.log(response.data.description);
-                    }
-                }
-            )
-            .catch(error => {
-                this.setState({loadingActive: false})
-                console.log(error.message);
-                this.refs.simpleModal.modalOpen('Ops!', 'Um erro ocorreu', 'Descrição do erro: '+error.message);
-                }
-            )
-        }
-    }
-
     validate(values) {
         let errors = {}
         if (!this.cidadeRef.current.value) {
@@ -280,11 +343,13 @@ class TeleCoronavirusRegistroAtendimento extends Component {
         if (!values.idade) {
             errors.idade = 'Entre com a Idade'
         }
-        if (!values.classificacao || values.classificacao === "selecione") {
+        if (!this.classificacaoRef.current.value || this.classificacaoRef.current.value === "selecione") {
             errors.classificacao = 'Entre com a Classificação'
         }
-        if (!values.us || values.us === "Selecione...") {
-            errors.us = 'Entre com a Unidade de Saúde'
+        if(this.classificacaoRef.current.value && this.classificacaoRef.current.value != "leve"){
+            if (!this.usRef.current.value || this.usRef.current.value === "Selecione...") {
+                errors.us = 'Entre com a Unidade de Saúde'
+            }
         }
     
         return errors
@@ -336,19 +401,19 @@ class TeleCoronavirusRegistroAtendimento extends Component {
                                     <Form>
                                         <ErrorMessage name="cidade" component="div" className="alert alert-warning" />
                                         <fieldset className="form-group" style={{textAlign:'left'}}>
-                                            <label>Cidade</label>
+                                            <label><b style={{color:'red'}}>*</b>Cidade</label>
                                             <Autocomplete
                                                 inputRef={this.cidadeRef}
                                                 searchPattern={'containsString'}
                                                 placeholder = ""
                                                 getItemValue={(item)=>{ return item.nome }}
                                                 itemsData = {this.state.cidades}
-                                                inputJSX = {(props) => <input {...props} onBlur={(e) => {this.getBairros(e)}} className="form-control" /> }
+                                                inputJSX = {(props) => <input {...props} onBlur={(e) => {this.onBlurCidade(e)}} className="form-control" /> }
                                             />
                                         </fieldset>
                                         <ErrorMessage name="bairro" component="div" className="alert alert-warning" />
                                         <fieldset className="form-group" style={{textAlign:'left'}}>
-                                            <label>Bairro</label>
+                                            <label><b style={{color:'red'}}>*</b>Bairro</label>
                                             <Autocomplete
                                                 inputRef={this.bairroRef}
                                                 searchPattern={'containsString'}
@@ -358,12 +423,51 @@ class TeleCoronavirusRegistroAtendimento extends Component {
                                                 inputJSX = {(props) => <input {...props} onBlur={(e) => {this.onBlurBairro(e)}} className="form-control" /> }
                                             />
                                         </fieldset>
+                                        <ErrorMessage name="nome" component="div" className="alert alert-warning" />
+                                        <fieldset className="form-group" style={{textAlign:'left'}}>
+                                            <label>Nome</label>
+                                            <Field className="form-control" type="text" name="nome" />
+                                        </fieldset>
+                                        <ErrorMessage name="celular" component="div" className="alert alert-warning" />
+                                        <ErrorMessage name="fixo" component="div" className="alert alert-warning" />
+                                        <Row>
+                                            <Col sm={6}>
+                                            <fieldset className="form-group" style={{textAlign:'left'}}>
+                                                        <label>Telefone Celular</label>
+                                                        <Field name="celular"
+                                                            render={({ field }) => (
+                                                                <MaskedInput
+                                                                    {...field}
+                                                                    mask={celularMask}
+                                                                    type="text"
+                                                                    className="form-control"
+                                                                />
+                                                            )}
+                                                        />
+                                                </fieldset>
+                                            </Col>
+                                            <Col sm={6}>
+                                                <fieldset className="form-group" style={{textAlign:'left'}}>
+                                                        <label>Telefone Fixo</label>
+                                                        <Field name="fixo"
+                                                            render={({ field }) => (
+                                                                <MaskedInput
+                                                                    {...field}
+                                                                    mask={fixoMask}
+                                                                    type="text"
+                                                                    className="form-control"
+                                                                />
+                                                            )}
+                                                        />
+                                                </fieldset>
+                                            </Col>
+                                        </Row>
                                         <ErrorMessage name="idade" component="div" className="alert alert-warning" />
                                         <ErrorMessage name="classificacao" component="div" className="alert alert-warning" />
                                         <Row>
                                             <Col sm={6}>
                                                 <fieldset className="form-group" style={{textAlign:'left'}}>
-                                                    <label>Idade</label>
+                                                    <label><b style={{color:'red'}}>*</b>Idade</label>
                                                     <Field name="idade"
                                                         render={({ field }) => (
                                                             <MaskedInput
@@ -378,24 +482,24 @@ class TeleCoronavirusRegistroAtendimento extends Component {
                                             </Col>
                                             <Col sm={6}>
                                                 <fieldset className="form-group" style={{textAlign:'left'}}>
-                                                    <label>Classificação</label>
-                                                    <Field disabled={this.state.classificacaoDisabled} as="select" className="form-control" type="text" name="classificacao" onClick={(e) => {this.getUss(e)}}>
+                                                    <label><b style={{color:'red'}}>*</b>Classificação</label>
+                                                    <select ref={this.classificacaoRef} disabled={this.state.classificacaoDisabled} className="form-control" type="text" name="classificacao" onChange={(e) => {this.getUss(e)}}>
                                                         <option value="selecione">Selecione...</option>
                                                         <option value="leve">Leve</option>
                                                         <option value="moderada">Moderada</option>
                                                         <option value="grave">Grave</option>
-                                                    </Field>
+                                                    </select>
                                                 </fieldset>
                                             </Col>
                                         </Row>
                                         <ErrorMessage name="us" component="div" className="alert alert-warning" />
                                         <fieldset className="form-group" style={{textAlign:'left'}}>
-                                            <label>Unidade de Saúde</label>
-                                            <Field disabled={this.state.usDisabled} as="select" innerRef={this.usRef} onClick={(e) => {this.usSelected(e)}} className="form-control" type="text" name="us" >
+                                            <label><b style={{color:'red'}}>*</b>Unidade de Saúde</label>
+                                            <select disabled={this.state.usDisabled} ref={this.usRef} onChange={(e) => {this.usSelected(e)}} className="form-control" type="text" name="us" >
                                                 {this.state.uss.map((item, index) =>
-                                                    <option value={item.nome}>{item.nome}</option>
+                                                    <option key={index} value={item.nome}>{item.nome}</option>
                                                 )}
-                                            </Field>
+                                            </select>
                                         </fieldset>
                                         <fieldset className="form-group" style={{textAlign:'left', display:(this.state.usDados)}}>
                                             <p style={{backgroundColor:'beige'}}>Unidade de Saúde: {this.state.usNome}</p>
