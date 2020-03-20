@@ -94,12 +94,12 @@ class UserDataService {
         return axios.get(`${VOLUNTARIO_API_URL}/bairros`, cidade, {'headers' : headers});
     }
 
-    retrieveUss(classificacao, chave) {
+    retrieveUss(usRequisitos, chave) {
         console.log("retrieveUss: " + `${VOLUNTARIO_API_URL}/uss`)
-        console.log(classificacao)
+        console.log(usRequisitos)
         console.log(chave)
         let headers = {chave: chave}
-        return axios.get(`${VOLUNTARIO_API_URL}/uss`, classificacao, {'headers' : headers});
+        return axios.get(`${VOLUNTARIO_API_URL}/uss`, usRequisitos, {'headers' : headers});
     }
 
     registrarAtendimento(registro, chave) {

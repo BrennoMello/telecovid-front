@@ -12,7 +12,7 @@ import CanditatoExpandido from './CanditatoExpandido';
 
 
 const divStylePaddingBottom = {
-    paddingBottom: "50px",
+    paddingBottom: "30px",
 };
 
 const admMock = {
@@ -143,17 +143,15 @@ class TeleCoronavirusAdm extends Component {
             <>
                 <Loader fullPage loading={this.state.loadingActive} text=""/>
                 <Container fluid>
-                    <Row className="center">
+                    <Row className="center" style={{paddingBottom:'10px'}}>
                         <Col sm={12}>
                             <h5 className="font_1">TELE</h5>
                             <h6 className="font_1">CORONAVÍRUS</h6>
                         </Col>
                     </Row>
-                    <br/>
                     <Row className="center">
                         <Col sm={12}>
-                            <h6 className="font_1">ADMINISTRADOR</h6>
-                            <h6 className="font_1">{this.state.adm.nome}</h6>
+                            <h6 className="font_1">ADMINISTRADOR: {this.state.adm.nome}</h6>
                         </Col>
                     </Row>
                 </Container>
@@ -163,7 +161,7 @@ class TeleCoronavirusAdm extends Component {
 
                 <Container fluid>
                     <Row className="center">
-                        <Col md={12}>
+                        <Col md={6}>
                             <Formik >
                             {
                                 (props) => (

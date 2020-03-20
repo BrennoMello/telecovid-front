@@ -30,7 +30,7 @@ const cpfMask = [
 ];
 
 const divStylePaddingBottom = {
-    paddingBottom: "50px",
+    paddingBottom: "40px",
 };
 
 class TeleCoronavirusSerVoluntario extends Component {
